@@ -1,0 +1,28 @@
+.container {
+  width: 850px;
+  height: 450px;
+  border: 1px solid silver;
+  margin: 20px auto;
+  overflow: hidden;
+  border-radius: 10px;
+  position: relative;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  font-size: 4rem;
+  color: #fff;
+  cursor: pointer;
+  transform: translateY(-50%);
+  opacity: 0;
+  transition: all 0.5s ease;
+}
+
+.arrowRight {
+  right: 35px;
+}
+
+.arrowLeft {
+  left: 35px;
+}
