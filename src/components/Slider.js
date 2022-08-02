@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 
 //slide
 import Slide from "./Slide";
@@ -11,6 +11,7 @@ const Slider = ({ slides }) => {
   const arrowLeft = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  // set mouseOver mouseOut handlers for opacity arrows...
   const arrowHadler = () => {
     arrowRight.current.style.opacity = "1";
     arrowLeft.current.style.opacity = "1";
@@ -21,13 +22,14 @@ const Slider = ({ slides }) => {
     arrowLeft.current.style.opacity = "0";
   };
 
-  useEffect(() => {
-    // makeSlide();
-  }, [currentIndex]);
-
+  //Slider handler
   const GotoNext = () => {
     const isLastIndex = currentIndex === slides.length - 1;
     isLastIndex ? setCurrentIndex(0) : setCurrentIndex((prev) => prev + 1);
+  };
+
+  const GotoPrev = () => {
+    setCurrentIndex(currentIndex === 0 ? slides.length - 1 : currentIndex - 1);
   };
   return (
     <div
@@ -43,7 +45,11 @@ const Slider = ({ slides }) => {
       >
         &#62;
       </div>
-      <div ref={arrowLeft} className={`${styles.arrow} ${styles.arrowLeft}`}>
+      <div
+        onClick={GotoPrev}
+        ref={arrowLeft}
+        className={`${styles.arrow} ${styles.arrowLeft}`}
+      >
         &#60;
       </div>
     </div>
