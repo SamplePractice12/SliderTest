@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, createContext } from "react";
 
 //slide
 import Slide from "./Slide";
@@ -6,7 +6,10 @@ import Slide from "./Slide";
 // styles ....
 import styles from "./Slider.module.css";
 
+export const animatedContext = createContext();
+
 const Slider = ({ slides }) => {
+  const [animated, setAnimated] = useState(false);
   const arrowRight = useRef(null);
   const arrowLeft = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -26,33 +29,37 @@ const Slider = ({ slides }) => {
   const GotoNext = () => {
     const isLastIndex = currentIndex === slides.length - 1;
     isLastIndex ? setCurrentIndex(0) : setCurrentIndex((prev) => prev + 1);
+    setAnimated(true);
   };
 
   const GotoPrev = () => {
     setCurrentIndex(currentIndex === 0 ? slides.length - 1 : currentIndex - 1);
+    setAnimated(true);
   };
   return (
-    <div
-      className={styles.container}
-      onMouseOut={arrowOutHandler}
-      onMouseOver={arrowHadler}
-    >
-      <Slide slideData={slides[currentIndex]} />
+    <animatedContext.Provider value={{ animated, setAnimated }}>
       <div
-        onClick={GotoNext}
-        ref={arrowRight}
-        className={`${styles.arrow} ${styles.arrowRight}`}
+        className={styles.container}
+        onMouseOut={arrowOutHandler}
+        onMouseOver={arrowHadler}
       >
-        &#62;
+        <Slide slideData={slides[currentIndex]} />
+        <div
+          onClick={GotoNext}
+          ref={arrowRight}
+          className={`${styles.arrow} ${styles.arrowRight}`}
+        >
+          &#62;
+        </div>
+        <div
+          onClick={GotoPrev}
+          ref={arrowLeft}
+          className={`${styles.arrow} ${styles.arrowLeft}`}
+        >
+          &#60;
+        </div>
       </div>
-      <div
-        onClick={GotoPrev}
-        ref={arrowLeft}
-        className={`${styles.arrow} ${styles.arrowLeft}`}
-      >
-        &#60;
-      </div>
-    </div>
+    </animatedContext.Provider>
   );
 };
 

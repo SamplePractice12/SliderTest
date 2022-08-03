@@ -2,6 +2,7 @@ import "./App.css";
 
 //import components
 import Slider from "./components/Slider";
+import SwiperSample from "./components/SwiperSample";
 
 function App() {
   const slides = [
